@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <title>Resultados</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-slate-950 text-slate-100 p-6">
+    <div class="max-w-5xl mx-auto space-y-6">
+    <div class="flex justify-between items-center">
+        <h1 class="text-2xl font-semibold">Resultados</h1>
+        <a th:href="@{/user/dashboard}" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700">Volver</a>
+    </div>
+
+    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 overflow-x-auto">
+        <table class="w-full text-sm">
+        <thead class="text-slate-400">
+        <tr>
+            <th class="text-left py-2">ID</th>
+            <th class="text-left py-2">Estado</th>
+            <th class="text-left py-2">Nota</th>
+            <th class="text-left py-2">Acción</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="a : ${attempts}" class="border-t border-slate-800">
+            <td class="py-2" th:text="${a.id}">1</td>
+            <td class="py-2" th:text="${a.status}">FINISHED</td>
+            <td class="py-2" th:text="${a.score}">-</td>
+            <td class="py-2">
+            <a th:if="${a.status.name()=='FINISHED'}"
+                th:href="@{'/user/results/' + ${a.id}}"
+                class="text-indigo-300">Detalle</a>
+            </td>
+        </tr>
+        </tbody>
+        </table>
+    </div>
+    </div>
+</body>
+</html>
