@@ -18,17 +18,17 @@
         </div>
 
         <div th:if="${param.error != null and param.error[0] == 'categories'}"
-             class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-200 text-sm">
+            class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-200 text-sm">
             Debes seleccionar al menos una categoría.
         </div>
 
         <div th:if="${param.error != null and param.error[0] == 'insufficient'}"
-             class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-200 text-sm">
+            class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-200 text-sm">
             No hay suficientes preguntas activas para generar ese examen.
             Disponibles: <span class="font-semibold" th:text="${param.available}">0</span>.
         </div>
         <div th:if="${param.error != null and param.error[0] == 'unexpected'}"
-             class="p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-200 text-sm">
+            class="p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-200 text-sm">
             Ocurrió un error al generar el examen. Revisa el log de la aplicación para el detalle técnico.
         </div>
 
@@ -41,7 +41,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     <label th:each="c : ${categories}" class="flex items-center gap-2 p-2 rounded-lg bg-slate-950 border border-slate-800">
                         <input type="checkbox" name="categoryIds" th:value="${c.id}" class="accent-indigo-500"
-                               th:checked="${#lists.contains(selectedCategoryIds, c.id)}"/>
+                            th:checked="${#lists.contains(selectedCategoryIds, c.id)}"/>
                         <span th:text="${c.name}">Categoría</span>
                     </label>
                 </div>

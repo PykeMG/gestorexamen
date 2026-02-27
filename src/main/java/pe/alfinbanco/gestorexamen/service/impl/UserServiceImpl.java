@@ -9,7 +9,7 @@ import pe.alfinbanco.gestorexamen.service.UserService;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService{
     private final UserRepository repo;
     private final PasswordEncoder passwordEncoder;
 
