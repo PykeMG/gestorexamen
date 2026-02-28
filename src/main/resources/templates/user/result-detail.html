@@ -6,17 +6,17 @@
     <title>Revisión</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="min-h-screen bg-slate-950 text-slate-100 p-6">
+<body class="min-h-screen bg-[#F5F5F5] text-black p-6">
     <div class="max-w-5xl mx-auto space-y-6">
-    <div class="flex justify-between items-center">
+    <div class="flex justify-between items-center bg-white border border-gray-200 rounded-2xl p-4">
         <h1 class="text-2xl font-semibold">Revisión (Intento #<span th:text="${attemptId}">0</span>)</h1>
-        <a th:href="@{/user/results}" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700">Volver</a>
+        <a th:href="@{/user/results}" class="px-4 py-2 rounded-xl bg-[#DEE33E] hover:bg-[#9FA324] text-black transition">Volver</a>
     </div>
 
-    <div th:each="r,iter : ${reviewRows}" class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5">
+    <div th:each="r,iter : ${reviewRows}" class="bg-white border border-gray-200 rounded-2xl p-5">
         <div class="flex justify-between items-start gap-4">
         <div>
-            <p class="text-slate-400 text-sm">Pregunta <span th:text="${iter.index+1}">1</span></p>
+            <p class="text-gray-600 text-sm">Pregunta <span th:text="${iter.index+1}">1</span></p>
             <p class="font-medium mt-1" th:text="${r.statement}">...</p>
         </div>
 
@@ -29,12 +29,12 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4 text-sm">
-        <div class="p-3 rounded-xl bg-slate-950/60 border border-slate-800">
-            <p class="text-slate-400">Tu respuesta</p>
+        <div class="p-3 rounded-xl bg-white border border-gray-200">
+            <p class="text-gray-600">Tu respuesta</p>
             <p th:text="${r.selectedOptionText}">(Sin responder)</p>
         </div>
-        <div class="p-3 rounded-xl bg-slate-950/60 border border-slate-800">
-            <p class="text-slate-400">Correcta</p>
+        <div class="p-3 rounded-xl bg-white border border-gray-200">
+            <p class="text-gray-600">Correcta</p>
             <p class="font-medium" th:text="${r.correctOptionText}">...</p>
         </div>
         </div>

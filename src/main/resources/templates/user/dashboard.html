@@ -1,68 +1,72 @@
 <!doctype html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8"/>
-        <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-        <title>Dashboard</title>
-        <script src="https://cdn.tailwindcss.com"></script>
-    </head>
-    <body class="min-h-screen bg-slate-950 text-slate-100 p-6">
-        <div class="max-w-5xl mx-auto space-y-6">
-
-        <div class="flex items-center justify-between">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <title>Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-[#F5F5F5] text-black p-6">
+    <div class="max-w-5xl mx-auto space-y-6">
+        <div class="flex items-center justify-between bg-white border border-gray-200 rounded-2xl p-4">
             <div>
-            <h1 class="text-2xl font-semibold">Dashboard</h1>
-            <p class="text-slate-400">Hola, <span th:text="${username}">user</span></p>
+                <p class="text-xl text-black">Hola, <span th:text="${username}">user</span></p>
             </div>
             <form th:action="@{/logout}" method="post">
-            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-            <button class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700">Salir</button>
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <button class="px-4 py-2 rounded-xl bg-[#DEE33E] hover:bg-[#9FA324] text-black transition">Salir</button>
             </form>
         </div>
 
+        <div class="flex flex-wrap gap-2">
+            <a th:href="@{/user/exam/new}" class="inline-block px-4 py-2 rounded-xl bg-[#DEE33E] hover:bg-[#9FA324] text-black transition">
+                Generar examen
+            </a>
+            <a th:href="@{/user/results}" class="inline-block px-4 py-2 rounded-xl bg-[#DEE33E] hover:bg-[#9FA324] text-black transition">
+                Resultados
+            </a>
+        </div>
+
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5">
-            <p class="text-slate-400 text-sm">Promedio</p>
-            <p class="text-3xl font-semibold" th:text="${avg}">0</p>
+            <div class="bg-white border border-gray-200 rounded-2xl p-5 flex flex-col items-center justify-center">
+                <p class="text-sm text-gray-600">Promedio</p>
+                <p class="text-4xl font-semibold" th:text="${avg}">0</p>
             </div>
 
-            <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 space-y-2">
-            <a th:href="@{/user/exam/new}"
-                class="block text-center px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500">Generar examen</a>
-            <a th:href="@{/user/results}"
-                class="block text-center px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700">Resultados</a>
+            <div class="bg-white border border-gray-200 rounded-2xl p-5 flex items-center justify-center">
+                <p class="text-sm text-gray-600 text-center">Revisa tu ranking personal y el historial de intentos.</p>
             </div>
 
-            <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5">
-            <p class="text-slate-400 text-sm mb-2">Top 10 (tú)</p>
-            <div th:if="${#lists.isEmpty(top10)}" class="text-slate-400 text-sm">Sin exámenes.</div>
+            <div class="bg-white border border-gray-200 rounded-2xl p-5">
+                <p class="text-sm text-gray-600 mb-2">Top 10 (tú)</p>
+                <div th:if="${#lists.isEmpty(top10)}" class="text-sm text-gray-600">Sin exámenes.</div>
 
-            <div th:each="a,iter : ${top10}" class="flex justify-between text-sm border-t border-slate-800 py-1">
-                <span th:text="${iter.index+1}">1</span>
-                <span class="font-medium" th:text="${a.score}">20</span>
-            </div>
+                <div th:each="a,iter : ${top10}" class="flex justify-between text-sm border-t border-gray-200 py-1">
+                    <span th:text="${iter.index+1}">1</span>
+                    <span class="font-medium" th:text="${a.score}">20</span>
+                </div>
             </div>
         </div>
 
-        <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 overflow-x-auto">
+        <div class="bg-white border border-gray-200 rounded-2xl p-5 overflow-x-auto">
             <h2 class="text-lg font-semibold mb-3">Historial</h2>
             <table class="w-full text-sm">
-            <thead class="text-slate-400">
-            <tr>
-                <th class="text-left py-2">ID</th>
-                <th class="text-left py-2">Estado</th>
-                <th class="text-left py-2">Nota</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="a : ${attempts}" class="border-t border-slate-800">
-                <td class="py-2" th:text="${a.id}">1</td>
-                <td class="py-2" th:text="${a.status}">FINISHED</td>
-                <td class="py-2" th:text="${a.score}">-</td>
-            </tr>
-            </tbody>
+                <thead class="text-gray-600">
+                    <tr>
+                        <th class="text-left py-2">ID</th>
+                        <th class="text-left py-2">Estado</th>
+                        <th class="text-left py-2">Nota</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="a : ${attempts}" class="border-t border-gray-200">
+                        <td class="py-2" th:text="${a.id}">1</td>
+                        <td class="py-2" th:text="${a.status.displayName}">terminado</td>
+                        <td class="py-2" th:text="${a.score}">-</td>
+                    </tr>
+                </tbody>
             </table>
         </div>
-        </div>
-    </body>
+    </div>
+</body>
 </html>

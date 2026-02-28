@@ -6,16 +6,16 @@
     <title>Resultados</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="min-h-screen bg-slate-950 text-slate-100 p-6">
+<body class="min-h-screen bg-[#F5F5F5] text-black p-6">
     <div class="max-w-5xl mx-auto space-y-6">
-    <div class="flex justify-between items-center">
+    <div class="flex justify-between items-center bg-white border border-gray-200 rounded-2xl p-4">
         <h1 class="text-2xl font-semibold">Resultados</h1>
-        <a th:href="@{/user/dashboard}" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700">Volver</a>
+        <a th:href="@{/user/dashboard}" class="px-4 py-2 rounded-xl bg-[#DEE33E] hover:bg-[#9FA324] text-black transition">Volver</a>
     </div>
 
-    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 overflow-x-auto">
+    <div class="bg-white border border-gray-200 rounded-2xl p-5 overflow-x-auto">
         <table class="w-full text-sm">
-        <thead class="text-slate-400">
+        <thead class="text-gray-600">
         <tr>
             <th class="text-left py-2">ID</th>
             <th class="text-left py-2">Estado</th>
@@ -24,14 +24,14 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="a : ${attempts}" class="border-t border-slate-800">
+        <tr th:each="a : ${attempts}" class="border-t border-gray-200">
             <td class="py-2" th:text="${a.id}">1</td>
-            <td class="py-2" th:text="${a.status}">FINISHED</td>
+            <td class="py-2" th:text="${a.status.displayName}">terminado</td>
             <td class="py-2" th:text="${a.score}">-</td>
             <td class="py-2">
             <a th:if="${a.status.name()=='FINISHED'}"
                 th:href="@{'/user/results/' + ${a.id}}"
-                class="text-indigo-300">Detalle</a>
+                class="text-black">Detalle</a>
             </td>
         </tr>
         </tbody>

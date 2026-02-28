@@ -6,34 +6,29 @@
     <title>Registro</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center p-6">
-    <div class="w-full max-w-md bg-slate-900/60 border border-slate-800 rounded-2xl p-6 space-y-4">
-        <h1 class="text-2xl font-semibold">Crear cuenta</h1>
-        <p class="text-slate-400 text-sm">Regístrate para rendir exámenes.</p>
+<body class="min-h-screen bg-[#DEE33E] text-black flex items-center justify-center p-6">
+    <div class="w-full max-w-md bg-white rounded-lg shadow-lg py-6 px-8 flex flex-col gap-6">
+        <h1 class="text-2xl font-semibold text-center">Crear cuenta</h1>
 
         <div th:if="${error}" class="p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-200 text-sm" th:text="${error}">
             Error
         </div>
 
-        <form th:action="@{/register}" method="post" class="space-y-3">
+        <form th:action="@{/register}" method="post" class="flex flex-col gap-4">
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
-            <input name="username" placeholder="Usuario" required
-                   th:value="${username}"
-                   class="w-full px-4 py-2 rounded-xl bg-slate-950 border border-slate-800"/>
+            <input name="username" placeholder="Usuario" required th:value="${username}" class="w-full px-4 py-3 rounded-xl bg-gray-50"/>
 
-            <input name="password" type="password" placeholder="Contraseña (mín. 6)" required
-                   class="w-full px-4 py-2 rounded-xl bg-slate-950 border border-slate-800"/>
+            <input name="password" type="password" placeholder="Contraseña (mín. 6)" required class="w-full px-4 py-3 rounded-xl bg-gray-50"/>
 
-            <input name="confirmPassword" type="password" placeholder="Confirmar contraseña" required
-                   class="w-full px-4 py-2 rounded-xl bg-slate-950 border border-slate-800"/>
+            <input name="confirmPassword" type="password" placeholder="Confirmar contraseña" required class="w-full px-4 py-3 rounded-xl bg-gray-50"/>
 
-            <button class="w-full py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500">Registrarme</button>
+            <button class="w-full py-3 rounded-xl bg-[#DEE33E] hover:bg-[#9FA324] transition">Registrarme</button>
         </form>
-
-        <p class="text-sm text-slate-300">
+        <div class="h-[1px] w-full bg-gray-200"></div>
+        <p class="text-sm text-black">
             ¿Ya tienes cuenta?
-            <a th:href="@{/login}" class="text-indigo-300 hover:text-indigo-200">Inicia sesión</a>
+            <a th:href="@{/login}" class="text-[#9FA324] hover:text-[#DEE33E] transition">Inicia sesión</a>
         </p>
     </div>
 </body>
