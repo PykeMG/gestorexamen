@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
     <title th:text="${category != null} ? 'Editar categoría' : 'Nueva categoría'">Categoría</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" th:href="@{/css/minimal-theme.css}"/>
 </head>
-<body class="min-h-screen bg-[#F5F5F5] text-black p-6">
+<body class="min-h-screen bg-slate-100 text-slate-900 p-6">
     <div class="max-w-2xl mx-auto space-y-6">
         <div class="flex items-center justify-between bg-white border border-gray-200 rounded-2xl p-4">
             <h1 class="text-2xl font-semibold" th:text="${category != null} ? 'Editar categoría' : 'Nueva categoría'">Categoría</h1>
-            <a th:href="@{/admin/categories}" class="px-4 py-2 rounded-xl bg-[#DEE33E] hover:bg-[#9FA324] text-black transition">Volver</a>
+            <a th:href="@{/admin/categories}" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-700 text-white transition">Volver</a>
         </div>
 
         <div th:if="${error}" class="p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-700 text-sm" th:text="${error}">
@@ -35,11 +36,12 @@
                 <label for="active" class="text-sm text-gray-700">Categoría activa</label>
             </div>
 
-            <button class="w-full py-2 rounded-xl bg-[#DEE33E] hover:bg-[#9FA324] text-black transition"
+            <button class="w-full py-2 rounded-xl bg-slate-900 hover:bg-slate-700 text-white transition"
                     th:text="${category != null} ? 'Guardar cambios' : 'Crear categoría'">
                 Guardar
             </button>
         </form>
     </div>
+    <footer class="app-footer text-center pb-6">© 2026 Gestor de Exámenes</footer>
 </body>
 </html>

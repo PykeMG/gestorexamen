@@ -2,6 +2,8 @@ package pe.alfinbanco.gestorexamen.repository;
 
 import org.springframework.data.jpa.repository.*;
 import java.util.List;
+import org.springframework.data.repository.query.Param;
+import pe.alfinbanco.gestorexamen.entity.Difficulty;
 import pe.alfinbanco.gestorexamen.entity.QuestionEntity;
 
 public interface QuestionRepository extends JpaRepository<QuestionEntity, Long> {
@@ -18,4 +20,16 @@ public interface QuestionRepository extends JpaRepository<QuestionEntity, Long> 
     long countActiveByCategories(List<String> categories);
 
     List<QuestionEntity> findByActiveTrueOrderByUpdatedAtDesc();
+
+    @Query("""
+        SELECT q
+        FROM QuestionEntity q
+        WHERE (:category IS NULL OR q.category = :category)
+          AND (:difficulty IS NULL OR q.difficulty = :difficulty)
+          AND (:active IS NULL OR q.active = :active)
+        ORDER BY q.updatedAt DESC
+    """)
+    List<QuestionEntity> findForAdminFilters(@Param("category") String category,
+                                             @Param("difficulty") Difficulty difficulty,
+                                             @Param("active") Boolean active);
 }

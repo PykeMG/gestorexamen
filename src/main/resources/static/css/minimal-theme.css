@@ -1,0 +1,53 @@
+:root {
+  --app-bg: #f8fafc;
+  --app-text: #0f172a;
+  --app-muted: #64748b;
+  --app-border: #edf2f7;
+  --app-border-soft: #f1f5f9;
+  --app-primary: #0f172a;
+  --app-primary-hover: #334155;
+}
+
+body {
+  background: radial-gradient(circle at top, #f1f5f9 0%, var(--app-bg) 42%);
+  color: var(--app-text);
+}
+
+input,
+select,
+textarea {
+  border: 1px solid var(--app-border);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #94a3b8;
+  box-shadow: 0 0 0 3px rgba(148, 163, 184, 0.2);
+}
+
+.border-gray-200 {
+  border-color: var(--app-border-soft) !important;
+}
+
+.border-gray-300 {
+  border-color: var(--app-border) !important;
+}
+
+.bg-white.border {
+  box-shadow: 0 8px 24px -18px rgba(15, 23, 42, 0.35);
+}
+
+.bg-slate-900 {
+  box-shadow: 0 6px 14px -10px rgba(15, 23, 42, 0.65);
+}
+
+.app-footer {
+  color: var(--app-muted);
+  font-size: 0.78rem;
+  letter-spacing: 0.01em;
+  margin-top: 2rem;
+  padding-top: 0.5rem;
+}

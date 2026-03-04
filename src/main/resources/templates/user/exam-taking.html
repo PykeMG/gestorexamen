@@ -5,8 +5,13 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>Examen</title>
   <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" th:href="@{/css/minimal-theme.css}"/>
 </head>
-<body class="min-h-screen bg-[#F5F5F5] text-black p-6">
+<body class="min-h-screen bg-slate-100 text-slate-900 p-6">
+    <div id="liveNotice"
+         class="hidden fixed top-4 left-1/2 -translate-x-1/2 z-50 px-4 py-2 rounded-xl border text-sm bg-amber-500/10 border-amber-500/30 text-amber-700">
+        El examen fue cerrado.
+    </div>
     <div class="max-w-4xl mx-auto space-y-6">
     <div class="flex justify-between items-center bg-white border border-gray-200 rounded-2xl p-4">
         <div>
@@ -27,25 +32,49 @@
 
         <div class="mt-3 space-y-2">
             <label th:each="opt : ${q.options}" class="flex items-center gap-3 p-3 rounded-xl bg-white border border-gray-200">
-            <input type="radio" th:name="${'q_' + q.questionId}" th:value="${opt.optionId}" class="accent-[#9FA324]"/>
+            <input type="radio" th:name="${'q_' + q.questionId}" th:value="${opt.optionId}" class="accent-slate-700"/>
             <span th:text="${opt.text}">opt</span>
             </label>
         </div>
         </div>
 
-        <button class="w-full py-2 rounded-xl bg-[#DEE33E] hover:bg-[#9FA324] text-black transition">Enviar</button>
+        <button class="w-full py-2 rounded-xl bg-slate-900 hover:bg-slate-700 text-white transition">Enviar</button>
     </form>
     </div>
 
     <script th:inline="javascript">
+    const attemptId = /*[[${attemptId}]]*/ 0;
     const minutes = /*[[${timeLimitMinutes}]]*/ 10;
     let remaining = minutes * 60;
     const timerEl = document.getElementById("timer");
     const form = document.getElementById("examForm");
+    const liveNotice = document.getElementById("liveNotice");
+    let examClosed = false;
 
     function pad(n){ return String(n).padStart(2,'0'); }
 
+    function showNotice(message) {
+        liveNotice.textContent = message;
+        liveNotice.classList.remove("hidden");
+    }
+
+    function closeExamAndRedirect(data) {
+        if (examClosed) return;
+        examClosed = true;
+        form.querySelectorAll("input, button").forEach(el => el.disabled = true);
+
+        const message = data.status === "CANCELED"
+            ? "El examen fue cancelado por un administrador."
+            : "El examen fue cerrado.";
+        showNotice(message);
+
+        setTimeout(() => {
+            window.location.href = data.redirectUrl || "/user/results";
+        }, 1300);
+    }
+
     function tick(){
+        if (examClosed) return;
         const m = Math.floor(remaining/60);
         const s = remaining%60;
         timerEl.textContent = pad(m) + ":" + pad(s);
@@ -54,7 +83,29 @@
         remaining--;
         setTimeout(tick,1000);
     }
+
+    async function checkAttemptStatus() {
+        if (examClosed) return;
+        try {
+            const response = await fetch(`/user/exam/${attemptId}/status`, {
+                method: "GET",
+                headers: { "Accept": "application/json" },
+                credentials: "same-origin"
+            });
+
+            if (!response.ok) return;
+            const data = await response.json();
+            if (data.closed) {
+                closeExamAndRedirect(data);
+            }
+        } catch (e) {
+            // Ignorar errores temporales de red y seguir verificando.
+        }
+    }
+
+    setInterval(checkAttemptStatus, 5000);
     tick();
     </script>
+    <footer class="app-footer text-center pb-6">© 2026 Gestor de Exámenes</footer>
 </body>
 </html>

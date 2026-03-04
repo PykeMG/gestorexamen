@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
     <title>Mantenimiento de preguntas</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" th:href="@{/css/minimal-theme.css}"/>
 </head>
-<body class="min-h-screen bg-[#F5F5F5] text-black p-6">
+<body class="min-h-screen bg-slate-100 text-slate-900 p-6">
     <div class="max-w-6xl mx-auto space-y-6">
         <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between bg-white border border-gray-200 rounded-2xl p-4">
             <div>
@@ -14,8 +15,8 @@
                 <p class="text-gray-600 text-sm">Administra preguntas activas, dificultad y respuestas.</p>
             </div>
             <div class="flex items-center gap-2">
-                <a th:href="@{/admin/dashboard}" class="px-4 py-2 rounded-xl bg-[#DEE33E] hover:bg-[#9FA324] text-black transition">Dashboard</a>
-                <a th:href="@{/admin/questions/new}" class="px-4 py-2 rounded-xl bg-[#DEE33E] hover:bg-[#9FA324] text-black transition">Nueva pregunta</a>
+                <a th:href="@{/admin/dashboard}" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-700 text-white transition">Dashboard</a>
+                <a th:href="@{/admin/questions/new}" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-700 text-white transition">Nueva pregunta</a>
             </div>
         </div>
 
@@ -26,6 +27,51 @@
         <div th:if="${param.ok != null and param.ok[0] == 'updated'}"
              class="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 text-sm">
             Pregunta actualizada correctamente.
+        </div>
+
+        <div class="bg-white border border-gray-200 rounded-2xl p-5">
+            <form th:action="@{/admin/questions}" method="get" class="grid gap-4 md:grid-cols-4 md:items-end">
+                <div>
+                    <label for="category" class="block text-sm text-gray-700 mb-1">Categoría</label>
+                    <select id="category" name="category" class="w-full px-3 py-2 border rounded-xl bg-white h-[42px]">
+                        <option value="">Todas</option>
+                        <option th:each="cat : ${filterCategories}"
+                                th:value="${cat}"
+                                th:text="${cat}"
+                                th:selected="${cat == filterCategory}">
+                            Categoría
+                        </option>
+                    </select>
+                </div>
+                <div>
+                    <label for="difficulty" class="block text-sm text-gray-700 mb-1">Dificultad</label>
+                    <select id="difficulty" name="difficulty" class="w-full px-3 py-2 border rounded-xl bg-white h-[42px]">
+                        <option value="">Todas</option>
+                        <option th:each="d : ${difficulties}"
+                                th:value="${d.name()}"
+                                th:text="${d.name()}"
+                                th:selected="${d.name() == filterDifficulty}">
+                            EASY
+                        </option>
+                    </select>
+                </div>
+                <div>
+                    <label for="active" class="block text-sm text-gray-700 mb-1">Estado</label>
+                    <select id="active" name="active" class="w-full px-3 py-2 border rounded-xl bg-white h-[42px]">
+                        <option value="">Todos</option>
+                        <option value="true" th:selected="${filterActive == 'true'}">Activas</option>
+                        <option value="false" th:selected="${filterActive == 'false'}">Inactivas</option>
+                    </select>
+                </div>
+                <div class="flex gap-2">
+                    <button type="submit" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-700 text-white transition">
+                        Filtrar
+                    </button>
+                    <a th:href="@{/admin/questions}" class="px-4 py-2 rounded-xl border border-gray-300 hover:bg-gray-100 transition">
+                        Limpiar
+                    </a>
+                </div>
+            </form>
         </div>
 
         <div class="bg-white border border-gray-200 rounded-2xl p-5 overflow-x-auto">
@@ -54,7 +100,7 @@
                         </td>
                         <td class="py-2">
                             <a th:href="@{'/admin/questions/' + ${q.id} + '/edit'}"
-                               class="inline-block px-3 py-1.5 rounded-lg bg-[#DEE33E] hover:bg-[#9FA324] text-black transition">
+                               class="inline-block px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-700 text-white transition">
                                 Editar
                             </a>
                         </td>
@@ -66,5 +112,6 @@
             </table>
         </div>
     </div>
+    <footer class="app-footer text-center pb-6">© 2026 Gestor de Exámenes</footer>
 </body>
 </html>

@@ -2,6 +2,7 @@ package pe.alfinbanco.gestorexamen.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -37,8 +38,24 @@ public class AdminQuestionController {
     }
 
     @GetMapping
-    public String list(Model model) {
-        model.addAttribute("questions", questionRepository.findAll(Sort.by(Sort.Direction.DESC, "updatedAt")));
+    public String list(@RequestParam(required = false) String category,
+                       @RequestParam(required = false) String difficulty,
+                       @RequestParam(required = false) String active,
+                       Model model) {
+        String categoryFilter = clean(category);
+        Difficulty difficultyFilter = parseDifficulty(difficulty);
+        Boolean activeFilter = parseActive(active);
+
+        model.addAttribute("questions",
+            questionRepository.findForAdminFilters(categoryFilter, difficultyFilter, activeFilter));
+        model.addAttribute("filterCategory", categoryFilter);
+        model.addAttribute("filterDifficulty", difficultyFilter != null ? difficultyFilter.name() : null);
+        model.addAttribute("filterActive", activeFilter != null ? activeFilter.toString() : null);
+        model.addAttribute("filterCategories",
+            categoryRepository.findAll(Sort.by(Sort.Direction.ASC, "name")).stream()
+                .map(CategoryEntity::getName)
+                .collect(Collectors.toList()));
+        model.addAttribute("difficulties", Difficulty.values());
         return "admin/questions";
     }
 
@@ -202,6 +219,24 @@ public class AdminQuestionController {
             .filter(CategoryEntity::isActive)
             .map(CategoryEntity::getName)
             .orElse(null);
+    }
+
+    private Difficulty parseDifficulty(String difficulty) {
+        String value = clean(difficulty);
+        if (value == null) return null;
+        try {
+            return Difficulty.valueOf(value.toUpperCase());
+        } catch (IllegalArgumentException ex) {
+            return null;
+        }
+    }
+
+    private Boolean parseActive(String active) {
+        String value = clean(active);
+        if (value == null) return null;
+        if ("true".equalsIgnoreCase(value)) return Boolean.TRUE;
+        if ("false".equalsIgnoreCase(value)) return Boolean.FALSE;
+        return null;
     }
 
     public static final class QuestionForm {
